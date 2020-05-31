@@ -10,19 +10,15 @@
  */
  // (!a and b and sel) OR (a and !b and !sel) OR (a and b)
 
+ // sel and a or sel and b
+
 CHIP Mux {
     IN a, b, sel;
     OUT out;
 
     PARTS:
-    Not(in=a, out=notA);
-    Not(in=b, out=notB);
     Not(in=sel, out=notSel);
-    And(a=a, b=b, out=aAndB);
-    And(a=notA, b=b, out=notAAndB);
-    And(a=a, b=notB, out=aAndNotB);
-    And(a=notAAndB, b=sel, out=notAAndBAndSel);
-    And(a=aAndNotB, b=notSel, out=aAndNotBAndNotSel);
-    Or(a=notAAndBAndSel, b=aAndNotBAndNotSel, out=firstOr);
-    Or(a=firstOr, b=aAndB, out=out);
+    And(a=notSel, b=a, out=notSelAndA);
+    And(a=b, b=sel, out=bAndSel);
+    Or(a=notSelAndA, b=bAndSel, out=out);
 }
